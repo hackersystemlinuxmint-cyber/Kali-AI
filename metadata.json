@@ -1,0 +1,6 @@
+{
+  "name": "KALI OS - Cyber AI & Development Suite",
+  "description": "Next-generation cyber intelligence, multi-language IDE with Lua execution, pentest recon tools, and 'kali' AI assistant by TokemekiAI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

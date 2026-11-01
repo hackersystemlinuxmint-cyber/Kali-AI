@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #04070d;
+    color: #e2e8f0;
+  }
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Glowing effects & Scanlines */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.35);
+}
+
+.glow-blue {
+  box-shadow: 0 0 25px rgba(5, 151, 255, 0.45);
+}
+
+.glow-green {
+  box-shadow: 0 0 20px rgba(0, 255, 170, 0.35);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 210, 255, 0.85);
+}
+
+.text-glow-blue {
+  text-shadow: 0 0 12px rgba(5, 151, 255, 0.85);
+}
+
+.text-glow-green {
+  text-shadow: 0 0 10px rgba(0, 255, 170, 0.85);
+}
+
+.scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.35) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(0, 210, 255, 0.03),
+    rgba(5, 151, 255, 0.02),
+    rgba(0, 255, 170, 0.03)
+  );
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #04070d;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 210, 255, 0.35);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00d2ff;
+}
+
+/* Cyber animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    border-color: rgba(0, 210, 255, 0.4);
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.2);
+  }
+  50% {
+    border-color: rgba(5, 151, 255, 0.8);
+    box-shadow: 0 0 24px rgba(5, 151, 255, 0.6);
+  }
+}
+
+@keyframes cyberScan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+@keyframes floatLogo {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-6px) scale(1.02); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+.animate-float {
+  animation: floatLogo 4s infinite ease-in-out;
+}
+
+.cyber-scanner {
+  animation: cyberScan 2.5s infinite linear;
+}

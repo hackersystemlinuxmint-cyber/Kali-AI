@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KALI OS - Cyber AI & Development Suite</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        kaliBg: '#04070d',
+                        kaliCard: '#090e17',
+                        kaliPanel: '#0f172a',
+                        kaliBorder: 'rgba(0, 210, 255, 0.25)',
+                        kaliCyan: '#00d2ff',
+                        kaliBlue: '#0597ff',
+                        kaliNeonGreen: '#00ffaa',
+                        kaliDarkGray: '#0b1320'
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #04070d;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Glowing effects & Scanlines */
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+        .glow-blue {
+            box-shadow: 0 0 25px rgba(5, 151, 255, 0.4);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
+        }
+        .text-glow-blue {
+            text-shadow: 0 0 12px rgba(5, 151, 255, 0.8);
+        }
+        .scanlines {
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.35) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(0, 210, 255, 0.03),
+                rgba(5, 151, 255, 0.02),
+                rgba(0, 255, 170, 0.03)
+            );
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #04070d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 210, 255, 0.4);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00d2ff;
+        }
+        /* Pulse & Cyber Animations */
+        @keyframes pulseGlow {
+            0%, 100% { border-color: rgba(0, 210, 255, 0.4); box-shadow: 0 0 10px rgba(0, 210, 255, 0.2); }
+            50% { border-color: rgba(5, 151, 255, 0.8); box-shadow: 0 0 22px rgba(5, 151, 255, 0.6); }
+        }
+        @keyframes cyberScan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-6px) scale(1.03); }
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+        .animate-float {
+            animation: floatLogo 4s infinite ease-in-out;
+        }
+        .cyber-scanner {
+            animation: cyberScan 2.5s infinite linear;
+        }
+    </style>
+</head>
+<body class="bg-kaliBg text-gray-200 min-h-screen flex flex-col relative select-none">
+
+    <!-- Scanline Backdrop Overlay -->
+    <div class="fixed inset-0 scanlines z-40 pointer-events-none opacity-40"></div>
+
+    <!-- BOOT SPLASH SCREEN (5-Seconds Audio-Visual Sequence) -->
+    <div id="boot-screen" class="fixed inset-0 bg-[#020408] z-50 flex flex-col items-center justify-center p-6 font-mono transition-opacity duration-700">
+        <div class="relative mb-6">
+            <div class="w-36 h-36 rounded-full border-2 border-kaliCyan/40 flex items-center justify-center glow-blue animate-pulse-glow relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-kaliCyan/20 to-transparent w-full h-1/4 cyber-scanner"></div>
+                <img src="https://www.kali.org/images/kali-dragon-icon.svg" alt="KALI Logo" class="w-24 h-24 object-contain animate-float filter drop-shadow-[0_0_15px_rgba(0,210,255,0.9)]">
+            </div>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-kaliCyan to-kaliBlue text-glow-cyan mb-1">
+            KALI OS v5.0
+        </h1>
+        <p class="text-[11px] text-kaliBlue font-semibold mb-6 tracking-wider">TOKE MEKI AI CORPORATION • MOBILE & DESKTOP CORE</p>
+
+        <div class="w-72 sm:w-80 bg-gray-900 h-2.5 rounded-full overflow-hidden border border-kaliCyan/40 mb-4 shadow-[0_0_10px_rgba(0,210,255,0.3)]">
+            <div id="boot-progress" class="h-full bg-gradient-to-r from-kaliCyan via-kaliBlue to-kaliNeonGreen w-0 transition-all duration-300"></div>
+        </div>
+        
+        <div id="boot-logs" class="text-xs text-gray-400 h-6 overflow-hidden text-center px-4">
+            [0.0s] Initializing neural kernel drivers...
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed top-4 right-4 left-4 sm:left-auto sm:w-80 z-50 transform translate-y-[-150%] sm:translate-y-0 sm:translate-x-full transition-transform duration-300 bg-kaliCard border border-kaliCyan text-kaliCyan px-4 py-3 rounded-xl shadow-2xl font-mono text-xs flex items-center space-x-3">
+        <i class="fa-solid fa-shield-halved text-kaliBlue text-base"></i>
+        <span id="toast-msg">System initialized.</span>
+    </div>
+
+    <!-- HEADER / TOP NAV -->
+    <header class="bg-kaliCard/95 backdrop-blur border-b border-kaliBorder px-3 sm:px-4 py-2.5 flex items-center justify-between z-30 sticky top-0">
+        <div class="flex items-center space-x-2.5">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-black/70 border border-kaliCyan/50 flex items-center justify-center p-1.5 glow-cyan">
+                <img src="https://www.kali.org/images/kali-dragon-icon.svg" alt="KALI AI Logo" class="w-full h-full object-contain">
+            </div>
+            <div>
+                <div class="flex items-center gap-1.5">
+                    <span class="font-mono font-bold tracking-wider text-white text-sm sm:text-base text-glow-cyan">KALI</span>
+                    <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-kaliCyan/15 text-kaliCyan border border-kaliCyan/40">AI v5.0</span>
+                </div>
+                <p class="text-[10px] sm:text-[11px] text-gray-400 font-mono flex items-center gap-1.5">
+                    <span class="truncate max-w-[120px] sm:max-w-none">TokemekiAI Core</span>
+                    <span class="text-gray-600">•</span>
+                    <span class="text-kaliBlue truncate max-w-[120px] sm:max-w-none">CEO: E. Atienza</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Telemetry & System Status -->
+        <div class="hidden lg:flex items-center space-x-6 text-xs font-mono text-gray-400">
+            <div class="flex items-center space-x-2 bg-black/40 px-3 py-1.5 rounded border border-gray-800">
+                <i class="fa-solid fa-microchip text-kaliCyan"></i>
+                <span>CPU: <span id="cpu-metric" class="text-kaliCyan">12.4%</span></span>
+            </div>
+            <div class="flex items-center space-x-2 bg-black/40 px-3 py-1.5 rounded border border-gray-800">
+                <i class="fa-solid fa-memory text-kaliBlue"></i>
+                <span>RAM: <span class="text-kaliBlue">3.8GB / 16GB</span></span>
+            </div>
+            <div class="flex items-center space-x-2 bg-black/40 px-3 py-1.5 rounded border border-gray-800">
+                <i class="fa-solid fa-wifi text-kaliNeonGreen"></i>
+                <span>LINK: <span class="text-kaliNeonGreen">SECURE ENCRYPTION</span></span>
+            </div>
+        </div>
+
+        <!-- Controls (Audio Toggle, Reload) -->
+        <div class="flex items-center space-x-2">
+            <button id="audio-toggle-btn" onclick="toggleAudio()" class="px-2.5 sm:px-3 py-1.5 bg-black/60 border border-kaliCyan/40 text-kaliCyan active:scale-95 hover:bg-kaliCyan/20 rounded-lg font-mono text-xs transition flex items-center gap-1.5">
+                <i id="audio-icon" class="fa-solid fa-volume-high"></i>
+                <span id="audio-status" class="hidden sm:inline">AUDIO: ON</span>
+            </button>
+
+            <button onclick="triggerEmergencyReset()" class="px-2.5 sm:px-3 py-1.5 bg-red-950/40 border border-red-500/50 text-red-400 active:scale-95 hover:bg-red-900/50 rounded-lg font-mono text-xs transition flex items-center gap-1.5">
+                <i class="fa-solid fa-rotate"></i>
+                <span class="hidden md:inline">RELOAD</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN WRAPPER -->
+    <div class="flex flex-1 overflow-hidden relative">
+
+        <!-- SIDEBAR (Responsive for Mobile Swipe/Touch) -->
+        <aside class="w-14 sm:w-16 md:w-60 bg-kaliCard/95 border-r border-kaliBorder flex flex-col justify-between z-20 shrink-0">
+            <div class="py-3 space-y-1">
+                <div class="px-4 pb-2 hidden md:block text-[10px] font-mono tracking-widest text-gray-500 uppercase">System Modules</div>
+                
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center justify-center md:justify-start space-x-0 md:space-x-3 px-2 md:px-4 py-3 text-kaliCyan bg-kaliCyan/10 border-l-4 border-kaliCyan transition font-mono text-sm">
+                    <i class="fa-solid fa-gauge-high text-base md:w-5 text-center"></i>
+                    <span class="hidden md:inline">Dashboard</span>
+                </button>
+
+                <button onclick="switchTab('ai')" id="nav-ai" class="nav-btn w-full flex items-center justify-center md:justify-start space-x-0 md:space-x-3 px-2 md:px-4 py-3 text-gray-400 hover:text-kaliCyan hover:bg-black/40 border-l-4 border-transparent transition font-mono text-sm">
+                    <i class="fa-solid fa-brain text-base md:w-5 text-center text-kaliBlue"></i>
+                    <span class="hidden md:inline">AI 'kali' Assistant</span>
+                </button>
+
+                <button onclick="switchTab('programming')" id="nav-programming" class="nav-btn w-full flex items-center justify-center md:justify-start space-x-0 md:space-x-3 px-2 md:px-4 py-3 text-gray-400 hover:text-kaliCyan hover:bg-black/40 border-l-4 border-transparent transition font-mono text-sm">
+                    <i class="fa-solid fa-code text-base md:w-5 text-center"></i>
+                    <span class="hidden md:inline">Code IDE & Synthesizer</span>
+                </button>
+
+                <button onclick="switchTab('pentest')" id="nav-pentest" class="nav-btn w-full flex items-center justify-center md:justify-start space-x-0 md:space-x-3 px-2 md:px-4 py-3 text-gray-400 hover:text-kaliCyan hover:bg-black/40 border-l-4 border-transparent transition font-mono text-sm">
+                    <i class="fa-solid fa-shield-cat text-base md:w-5 text-center"></i>
+                    <span class="hidden md:inline">Pentest & Recon</span>
+                </button>
+
+                <button onclick="switchTab('cipher')" id="nav-cipher" class="nav-btn w-full flex items-center justify-center md:justify-start space-x-0 md:space-x-3 px-2 md:px-4 py-3 text-gray-400 hover:text-kaliCyan hover:bg-black/40 border-l-4 border-transparent transition font-mono text-sm">
+                    <i class="fa-solid fa-key text-base md:w-5 text-center"></i>
+                    <span class="hidden md:inline">Cipher Utility</span>
+                </button>
+
+                <button onclick="switchTab('terminal')" id="nav-terminal" class="nav-btn w-full flex items-center justify-center md:justify-start space-x-0 md:space-x-3 px-2 md:px-4 py-3 text-gray-400 hover:text-kaliCyan hover:bg-black/40 border-l-4 border-transparent transition font-mono text-sm">
+                    <i class="fa-solid fa-terminal text-base md:w-5 text-center"></i>
+                    <span class="hidden md:inline">Kali Terminal</span>
+                </button>
+            </div>
+
+            <!-- Corporate Credits Sidebar Footer -->
+            <div class="p-3 border-t border-kaliBorder hidden md:block">
+                <div class="bg-black/50 p-2.5 rounded-lg border border-gray-800 font-mono text-xs space-y-1">
+                    <div class="text-gray-400 flex justify-between">
+                        <span>Vendor:</span>
+                        <span class="text-kaliCyan">TokemekiAI</span>
+                    </div>
+                    <div class="text-gray-400 flex justify-between">
+                        <span>CEO:</span>
+                        <span class="text-kaliBlue" title="Etlijah Atienza (xlex175)">E. Atienza</span>
+                    </div>
+                    <div class="text-gray-400 flex justify-between">
+                        <span>Handle:</span>
+                        <span class="text-kaliNeonGreen">xlex175</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="flex-1 overflow-y-auto bg-kaliBg p-3 sm:p-5 relative">
+
+            <!-- DASHBOARD TAB -->
+            <div id="tab-dashboard" class="tab-content space-y-5">
+                <!-- Welcome Banner -->
+                <div class="bg-gradient-to-r from-kaliCard via-[#0d172a] to-kaliCard border border-kaliBorder p-4 sm:p-6 rounded-xl relative overflow-hidden glow-cyan animate-pulse-glow">
+                    <div class="absolute -right-6 -bottom-8 opacity-15 pointer-events-none w-48 h-48 sm:w-64 sm:h-64">
+                        <img src="https://www.kali.org/images/kali-dragon-icon.svg" alt="Dragon Logo" class="w-full h-full object-contain">
+                    </div>
+                    <div class="relative z-10 max-w-3xl">
+                        <span class="text-[10px] sm:text-xs font-mono px-2.5 py-1 rounded bg-kaliCyan/20 text-kaliCyan border border-kaliCyan/40 uppercase tracking-widest font-semibold">
+                            TOKE MEKI AI • CYBER SECURITY PLATFORM
+                        </span>
+                        <h2 class="text-xl sm:text-3xl font-bold font-mono mt-3 text-white">
+                            KALI <span class="text-transparent bg-clip-text bg-gradient-to-r from-kaliCyan to-kaliBlue">AI OS v5.0</span>
+                        </h2>
+                        <p class="text-gray-300 text-xs sm:text-sm mt-2 leading-relaxed font-mono">
+                            Developed under the direction of <strong class="text-kaliCyan">Etlijah Atienza (xlex175)</strong> at <strong class="text-kaliBlue">TokemekiAI company</strong>. 
+                            Fully equipped with multi-language synthesis (including Lua support), penetration testing lab tools, and AI intelligence.
+                        </p>
+                        <div class="mt-4 sm:mt-5 flex flex-wrap gap-2.5 font-mono">
+                            <button onclick="switchTab('ai')" class="px-3.5 py-2 bg-gradient-to-r from-kaliCyan to-kaliBlue text-black font-bold rounded-lg text-xs hover:opacity-90 active:scale-95 transition flex items-center gap-2 glow-cyan">
+                                <i class="fa-solid fa-brain"></i> Consult 'kali' AI
+                            </button>
+                            <button onclick="switchTab('programming')" class="px-3.5 py-2 bg-black/60 border border-kaliCyan text-kaliCyan rounded-lg text-xs active:scale-95 hover:bg-kaliCyan/20 transition flex items-center gap-2">
+                                <i class="fa-solid fa-code"></i> Lua & Code IDE
+                            </button>
+                            <button onclick="switchTab('pentest')" class="px-3.5 py-2 bg-black/60 border border-kaliBlue text-kaliBlue rounded-lg text-xs active:scale-95 hover:bg-kaliBlue/20 transition flex items-center gap-2">
+                                <i class="fa-solid fa-shield-halved"></i> Recon Tools
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <div onclick="switchTab('ai')" class="bg-kaliCard border border-kaliBorder p-4 rounded-xl hover:border-kaliCyan transition cursor-pointer group active:scale-[0.98]">
+                        <div class="flex items-center justify-between mb-2.5">
+                            <div class="w-9 h-9 rounded-lg bg-kaliCyan/10 border border-kaliCyan/40 flex items-center justify-center text-kaliCyan group-hover:scale-110 transition">
+                                <i class="fa-solid fa-brain text-lg"></i>
+                            </div>
+                            <span class="text-[9px] font-mono text-kaliCyan bg-kaliCyan/10 px-2 py-0.5 rounded">NEURAL ENGINE</span>
+                        </div>
+                        <h3 class="font-mono font-bold text-white text-sm">AI Assistant 'kali'</h3>
+                        <p class="text-xs text-gray-400 mt-1 font-mono">Conversational AI trained for Lua scripting, programming logic, and defensive cyber security.</p>
+                    </div>
+
+                    <div onclick="switchTab('programming')" class="bg-kaliCard border border-kaliBorder p-4 rounded-xl hover:border-kaliBlue transition cursor-pointer group active:scale-[0.98]">
+                        <div class="flex items-center justify-between mb-2.5">
+                            <div class="w-9 h-9 rounded-lg bg-kaliBlue/10 border border-kaliBlue/40 flex items-center justify-center text-kaliBlue group-hover:scale-110 transition">
+                                <i class="fa-solid fa-laptop-code text-lg"></i>
+                            </div>
+                            <span class="text-[9px] font-mono text-kaliBlue bg-kaliBlue/10 px-2 py-0.5 rounded">9+ LANGUAGES</span>
+                        </div>
+                        <h3 class="font-mono font-bold text-white text-sm">Lua & Code IDE</h3>
+                        <p class="text-xs text-gray-400 mt-1 font-mono">Lua, Python, C/C++, Rust, Go, Assembly, Bash, PowerShell, and JS code synthesizer.</p>
+                    </div>
+
+                    <div onclick="switchTab('pentest')" class="bg-kaliCard border border-kaliBorder p-4 rounded-xl hover:border-kaliNeonGreen transition cursor-pointer group active:scale-[0.98] sm:col-span-2 md:col-span-1">
+                        <div class="flex items-center justify-between mb-2.5">
+                            <div class="w-9 h-9 rounded-lg bg-kaliNeonGreen/10 border border-kaliNeonGreen/40 flex items-center justify-center text-kaliNeonGreen group-hover:scale-110 transition">
+                                <i class="fa-solid fa-network-wired text-lg"></i>
+                            </div>
+                            <span class="text-[9px] font-mono text-kaliNeonGreen bg-kaliNeonGreen/10 px-2 py-0.5 rounded">RECON & LAB</span>
+                        </div>
+                        <h3 class="font-mono font-bold text-white text-sm">Pentest & Security Lab</h3>
+                        <p class="text-xs text-gray-400 mt-1 font-mono">Nmap syntax builder, OWASP framework reference, and payload encoder utilities.</p>
+                    </div>
+                </div>
+
+                <!-- Info Cards -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <div class="bg-kaliCard border border-kaliBorder p-4 sm:p-5 rounded-xl">
+                        <h3 class="font-mono font-bold text-white text-xs sm:text-sm pb-2 border-b border-gray-800 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-building text-kaliCyan"></i> TokemekiAI Corporate Intelligence
+                        </h3>
+                        <div class="space-y-2 font-mono text-xs">
+                            <div class="bg-black/50 p-2.5 sm:p-3 rounded-lg border border-gray-800 flex justify-between items-center">
+                                <span class="text-gray-400">Company / Vendor:</span>
+                                <span class="text-kaliCyan font-bold">TokemekiAI company</span>
+                            </div>
+                            <div class="bg-black/50 p-2.5 sm:p-3 rounded-lg border border-gray-800 flex justify-between items-center">
+                                <span class="text-gray-400">Founder & CEO:</span>
+                                <span class="text-kaliBlue font-bold">Etlijah Atienza</span>
+                            </div>
+                            <div class="bg-black/50 p-2.5 sm:p-3 rounded-lg border border-gray-800 flex justify-between items-center">
+                                <span class="text-gray-400">Developer Handle:</span>
+                                <span class="text-kaliNeonGreen font-bold">xlex175</span>
+                            </div>
+                            <div class="bg-black/50 p-2.5 sm:p-3 rounded-lg border border-gray-800 flex justify-between items-center">
+                                <span class="text-gray-400">Mobile Optimization:</span>
+                                <span class="text-gray-300">Android Touch Compatible</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-kaliCard border border-kaliBorder p-4 sm:p-5 rounded-xl">
+                        <h3 class="font-mono font-bold text-white text-xs sm:text-sm pb-2 border-b border-gray-800 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-terminal text-kaliNeonGreen"></i> Quick System Hooks
+                        </h3>
+                        <div class="grid grid-cols-2 gap-2 font-mono text-xs">
+                            <button onclick="runQuickCommand('whoami')" class="p-2.5 bg-black/50 active:scale-95 hover:bg-kaliCyan/10 border border-gray-800 hover:border-kaliCyan/50 rounded-lg text-left text-gray-300 hover:text-kaliCyan transition flex items-center justify-between">
+                                <span>whoami</span>
+                                <i class="fa-solid fa-play text-[9px]"></i>
+                            </button>
+                            <button onclick="runQuickCommand('creator')" class="p-2.5 bg-black/50 active:scale-95 hover:bg-kaliCyan/10 border border-gray-800 hover:border-kaliCyan/50 rounded-lg text-left text-gray-300 hover:text-kaliCyan transition flex items-center justify-between">
+                                <span>check creator</span>
+                                <i class="fa-solid fa-play text-[9px]"></i>
+                            </button>
+                            <button onclick="runQuickCommand('scan 10.0.0.1')" class="p-2.5 bg-black/50 active:scale-95 hover:bg-kaliCyan/10 border border-gray-800 hover:border-kaliCyan/50 rounded-lg text-left text-gray-300 hover:text-kaliCyan transition flex items-center justify-between">
+                                <span>nmap scan</span>
+                                <i class="fa-solid fa-play text-[9px]"></i>
+                            </button>
+                            <button onclick="runQuickCommand('lua')" class="p-2.5 bg-black/50 active:scale-95 hover:bg-kaliCyan/10 border border-gray-800 hover:border-kaliCyan/50 rounded-lg text-left text-gray-300 hover:text-kaliCyan transition flex items-center justify-between">
+                                <span>lua script</span>
+                                <i class="fa-solid fa-play text-[9px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI CHAT ASSISTANT TAB -->
+            <div id="tab-ai" class="tab-content hidden space-y-3 h-[calc(100vh-85px)] sm:h-[calc(100vh-100px)] flex flex-col">
+                <div class="bg-kaliCard border border-kaliBorder p-3 rounded-t-xl flex items-center justify-between shrink-0">
+                    <div class="flex items-center space-x-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-black/80 border border-kaliCyan/60 p-1 glow-cyan">
+                            <img src="https://www.kali.org/images/kali-dragon-icon.svg" alt="Logo" class="w-full h-full object-contain">
+                        </div>
+                        <div>
+                            <h3 class="font-mono font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                                AI Assistant 'kali'
+                                <span class="text-[9px] px-1.5 py-0.2 bg-kaliCyan/20 text-kaliCyan border border-kaliCyan/30 rounded">ONLINE</span>
+                            </h3>
+                            <p class="text-[10px] text-gray-400 font-mono">TokemekiAI Neural Engine (Lua Capable)</p>
+                        </div>
+                    </div>
+                    <button onclick="clearChat()" class="text-xs font-mono text-gray-400 hover:text-kaliCyan active:scale-95 transition flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded-lg border border-gray-800">
+                        <i class="fa-solid fa-trash-can"></i> Clear
+                    </button>
+                </div>
+
+                <!-- Chat Scroll View -->
+                <div id="chat-container" class="flex-1 bg-black/90 border border-kaliBorder rounded-b-xl p-3 sm:p-4 font-mono text-xs sm:text-sm overflow-y-auto space-y-3 shadow-inner">
+                    <div class="flex items-start space-x-2.5">
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-kaliCard border border-kaliCyan/60 flex items-center justify-center p-1 shrink-0">
+                            <img src="https://www.kali.org/images/kali-dragon-icon.svg" alt="Logo" class="w-full h-full object-contain">
+                        </div>
+                        <div class="bg-kaliCard border border-kaliBorder p-3 rounded-xl text-gray-200 text-xs sm:text-sm max-w-full sm:max-w-2xl leading-relaxed">
+                            Greetings. I am <strong class="text-kaliCyan font-bold">kali</strong>, an advanced AI assistant created by <strong class="text-kaliBlue">TokemekiAI company</strong> under CEO <strong class="text-kaliNeonGreen">Etlijah Atienza (xlex175)</strong>.<br><br>
+                            I specialize in Lua, Python, C/C++, Rust, Go, PowerShell, Bash, and defensive cyber security auditing. How can I assist your workflow today?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input Form -->
+                <form id="chat-form" onsubmit="handleChatSubmit(event)" class="flex items-center space-x-2 bg-kaliCard border border-kaliBorder rounded-xl p-2 shrink-0">
+                    <input type="text" id="chat-input" autocomplete="off" class="flex-1 bg-black border border-gray-800 rounded-lg px-3 py-2 text-gray-100 font-mono text-xs sm:text-sm outline-none focus:border-kaliCyan transition" placeholder="Ask 'kali' about Lua, coding, security...">
+                    <button type="submit" class="px-4 py-2 bg-gradient-to-r from-kaliCyan to-kaliBlue text-black font-bold rounded-lg font-mono text-xs active:scale-95 hover:opacity-90 transition flex items-center gap-1.5 shrink-0">
+                        <span>SEND</span>
+                        <i class="fa-solid fa-paper-plane text-[10px]"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- PROGRAMMING IDE TAB -->
+            <div id="tab-programming" class="tab-content hidden space-y-4">
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 bg-kaliCard border border-kaliBorder p-4 rounded-xl">
+                    <div>
+                        <h2 class="text-lg sm:text-xl font-bold font-mono text-white flex items-center gap-2">
+                            <i class="fa-solid fa-code text-kaliCyan"></i> Multi-Language Code IDE & Synthesizer
+                        </h2>
+                        <p class="text-xs text-gray-400 font-mono mt-0.5">Edit Lua, Python, C++, Rust, Go, Assembly, and script logic in the sandbox.</p>
+                    </div>
+
+                    <!-- Language Selector Bar -->
+                    <div class="flex flex-wrap gap-1 font-mono text-xs w-full lg:w-auto">
+                        <button onclick="selectLanguage('lua')" id="lang-lua" class="lang-btn px-2.5 py-1 rounded-md bg-kaliCyan text-black font-bold transition">Lua</button>
+                        <button onclick="selectLanguage('python')" id="lang-python" class="lang-btn px-2.5 py-1 rounded-md bg-black/60 text-gray-300 border border-gray-800 transition">Python</button>
+                        <button onclick="selectLanguage('javascript')" id="lang-javascript" class="lang-btn px-2.5 py-1 rounded-md bg-black/60 text-gray-300 border border-gray-800 transition">JS</button>
+                        <button onclick="selectLanguage('cpp')" id="lang-cpp" class="lang-btn px-2.5 py-1 rounded-md bg-black/60 text-gray-300 border border-gray-800 transition">C++</button>
+                        <button onclick="selectLanguage('rust')" id="lang-rust" class="lang-btn px-2.5 py-1 rounded-md bg-black/60 text-gray-300 border border-gray-800 transition">Rust</button>
+                        <button onclick="selectLanguage('go')" id="lang-go" class="lang-btn px-2.5 py-1 rounded-md bg-black/60 text-gray-300 border border-gray-800 transition">Go</button>
+                        <button onclick="selectLanguage('bash')" id="lang-bash" class="lang-btn px-2.5 py-1 rounded-md bg-black/60 text-gray-300 border border-gray-800 transition">Bash</button>
+                        <button onclick="selectLanguage('powershell')" id="lang-powershell" class="lang-btn px-2.5 py-1 rounded-md bg-black/60 text-gray-300 border border-gray-800 transition">PS</button>
+                        <button onclick="selectLanguage('assembly')" id="lang-assembly" class="lang-btn px-2.5 py-1 rounded-md bg-black/60 text-gray-300 border border-gray-800 transition">ASM</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <!-- Editor Area -->
+                    <div class="lg:col-span-2 bg-kaliCard border border-kaliBorder rounded-xl flex flex-col overflow-hidden">
+                        <div class="bg-black/60 px-3.5 py-2.5 border-b border-kaliBorder flex items-center justify-between font-mono">
+                            <span id="code-filename" class="text-xs text-kaliCyan font-bold">script_module.lua</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="copyCode()" class="px-2.5 py-1 bg-kaliCyan/10 border border-kaliCyan/40 text-kaliCyan rounded text-xs active:scale-95 hover:bg-kaliCyan hover:text-black transition flex items-center gap-1">
+                                    <i class="fa-solid fa-copy text-[10px]"></i> Copy
+                                </button>
+                                <button onclick="runCodeSandbox()" class="px-2.5 py-1 bg-gradient-to-r from-kaliCyan to-kaliBlue text-black font-bold rounded text-xs active:scale-95 hover:opacity-90 transition flex items-center gap-1">
+                                    <i class="fa-solid fa-play text-[10px]"></i> Execute
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Editable Area -->
+                        <textarea id="code-editor" spellcheck="false" class="w-full h-72 sm:h-80 bg-black p-3.5 font-mono text-xs sm:text-sm text-kaliCyan outline-none border-none resize-none leading-relaxed focus:ring-0" onkeydown="playKeySound()"></textarea>
+
+                        <!-- Execution Console -->
+                        <div class="border-t border-gray-800 bg-[#070b12] p-3 font-mono text-xs">
+                            <div class="text-gray-500 mb-1 flex items-center justify-between">
+                                <span>CONSOLE OUTPUT:</span>
+                                <span id="exec-status" class="text-gray-400">Idle</span>
+                            </div>
+                            <div id="code-output" class="text-gray-300 bg-black/60 p-2.5 rounded-lg border border-gray-900 min-h-[60px] whitespace-pre-wrap text-[11px] sm:text-xs">
+                                Click "Execute" to run snippet in sandbox...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Presets & Info Panel -->
+                    <div class="bg-kaliCard border border-kaliBorder p-4 rounded-xl space-y-3 font-mono">
+                        <h3 class="font-bold text-white text-xs sm:text-sm pb-1.5 border-b border-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-microchip text-kaliBlue"></i> Code Templates
+                        </h3>
+                        <div class="space-y-1.5 text-xs">
+                            <button onclick="loadTemplate('lua')" class="w-full text-left bg-black/40 active:scale-95 hover:bg-kaliCyan/10 border border-gray-800 hover:border-kaliCyan/50 p-2 rounded-lg text-gray-300 hover:text-kaliCyan transition">
+                                + Lua Scripting Core
+                            </button>
+                            <button onclick="loadTemplate('socket')" class="w-full text-left bg-black/40 active:scale-95 hover:bg-kaliCyan/10 border border-gray-800 hover:border-kaliCyan/50 p-2 rounded-lg text-gray-300 hover:text-kaliCyan transition">
+                                + Socket Client Template
+                            </button>
+                            <button onclick="loadTemplate('crypto')" class="w-full text-left bg-black/40 active:scale-95 hover:bg-kaliCyan/10 border border-gray-800 hover:border-kaliCyan/50 p-2 rounded-lg text-gray-300 hover:text-kaliCyan transition">
+                                + Cryptography Verification
+                            </button>
+                        </div>
+
+                        <div class="bg-black/50 p-3 rounded-lg border border-gray-800 space-y-1.5 text-[11px]">
+                            <span class="text-kaliCyan font-bold">Android & Web Security:</span>
+                            <p class="text-gray-400 leading-relaxed">
+                                Optimized for touch controls on Android. Execution runs inside a virtualized client sandbox safely.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PENTEST & RECON LAB TAB -->
+            <div id="tab-pentest" class="tab-content hidden space-y-4 font-mono">
+                <div class="bg-kaliCard border border-kaliBorder p-4 rounded-xl">
+                    <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-shield-cat text-kaliBlue"></i> Penetration Testing & Recon Suite
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-1">Nmap syntax builder, vulnerability reference, and educational security lab.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <!-- Nmap Command Builder -->
+                    <div class="bg-kaliCard border border-kaliBorder p-4 rounded-xl space-y-3">
+                        <h3 class="font-bold text-white text-xs sm:text-sm pb-1.5 border-b border-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-terminal text-kaliCyan"></i> Nmap Recon Command Generator
+                        </h3>
+                        <div class="space-y-2.5 text-xs">
+                            <div>
+                                <label class="text-gray-400 block mb-1">Target Host / IP Address:</label>
+                                <input type="text" id="nmap-target" value="192.168.1.1" class="w-full bg-black border border-gray-800 rounded px-3 py-2 text-kaliCyan outline-none focus:border-kaliCyan">
+                            </div>
+                            <div>
+                                <label class="text-gray-400 block mb-1">Scan Profile:</label>
+                                <select id="nmap-type" class="w-full bg-black border border-gray-800 rounded px-3 py-2 text-gray-300 outline-none focus:border-kaliCyan">
+                                    <option value="-sS -T4">SYN Stealth Scan (-sS -T4)</option>
+                                    <option value="-sV -sC">Service Detection (-sV -sC)</option>
+                                    <option value="-A">Aggressive OS & Script Scan (-A)</option>
+                                    <option value="-p- -T4">All 65535 Ports (-p-)</option>
+                                </select>
+                            </div>
+                            <button onclick="generateNmapCommand()" class="w-full py-2 bg-gradient-to-r from-kaliCyan to-kaliBlue text-black font-bold rounded-lg active:scale-95 hover:opacity-90 transition">
+                                GENERATE COMMAND & RUN SIMULATION
+                            </button>
+                            <div id="nmap-result" class="bg-black p-3 rounded-lg border border-gray-900 text-xs text-gray-300 h-32 overflow-y-auto whitespace-pre-wrap">
+                                Simulated scan results will appear here...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- OWASP Reference -->
+                    <div class="bg-kaliCard border border-kaliBorder p-4 rounded-xl space-y-3">
+                        <h3 class="font-bold text-white text-xs sm:text-sm pb-1.5 border-b border-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-book-bookmark text-kaliNeonGreen"></i> OWASP Framework Guide
+                        </h3>
+                        <div class="space-y-2 text-xs">
+                            <div class="bg-black/50 p-2.5 rounded-lg border border-gray-800">
+                                <span class="text-red-400 font-bold block">A01: Broken Access Control</span>
+                                <span class="text-gray-400">Enforce strict server-side policy controls.</span>
+                            </div>
+                            <div class="bg-black/50 p-2.5 rounded-lg border border-gray-800">
+                                <span class="text-yellow-400 font-bold block">A03: Injection Vectors</span>
+                                <span class="text-gray-400">Prevent SQLi, Command Injection, and NoSQL flaws.</span>
+                            </div>
+                            <div class="bg-black/50 p-2.5 rounded-lg border border-gray-800">
+                                <span class="text-kaliCyan font-bold block">A02: Cryptographic Failures</span>
+                                <span class="text-gray-400">Utilize strong encryption standard suites (AES-256).</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CIPHER UTILITY TAB -->
+            <div id="tab-cipher" class="tab-content hidden space-y-4 font-mono">
+                <div class="bg-kaliCard border border-kaliBorder p-4 rounded-xl">
+                    <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-key text-kaliCyan"></i> Cryptographic Encoder & Hash Suite
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Base64, Hexadecimal, ROT13, and SHA-256 encoding tool.</p>
+                </div>
+
+                <div class="bg-kaliCard border border-kaliBorder p-4 sm:p-5 rounded-xl space-y-3 max-w-3xl">
+                    <div>
+                        <label class="text-xs text-gray-400 block mb-1">Input Text / Payload:</label>
+                        <textarea id="cipher-input" class="w-full bg-black border border-gray-800 rounded-lg p-3 text-xs sm:text-sm text-kaliCyan outline-none focus:border-kaliCyan h-24" placeholder="Enter text to convert..."></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                        <button onclick="transformCipher('base64')" class="p-2 bg-black/60 border border-gray-800 active:scale-95 hover:border-kaliCyan rounded-lg text-gray-300 hover:text-kaliCyan transition">
+                            Base64 Encode
+                        </button>
+                        <button onclick="transformCipher('base64dec')" class="p-2 bg-black/60 border border-gray-800 active:scale-95 hover:border-kaliCyan rounded-lg text-gray-300 hover:text-kaliCyan transition">
+                            Base64 Decode
+                        </button>
+                        <button onclick="transformCipher('rot13')" class="p-2 bg-black/60 border border-gray-800 active:scale-95 hover:border-kaliCyan rounded-lg text-gray-300 hover:text-kaliCyan transition">
+                            ROT13 Cipher
+                        </button>
+                        <button onclick="transformCipher('sha256')" class="p-2 bg-black/60 border border-gray-800 active:scale-95 hover:border-kaliCyan rounded-lg text-gray-300 hover:text-kaliCyan transition">
+                            SHA-256 Hash
+                        </button>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-gray-400 block mb-1">Output Result:</label>
+                        <textarea id="cipher-output" readonly class="w-full bg-black/80 border border-gray-800 rounded-lg p-3 text-xs sm:text-sm text-kaliNeonGreen outline-none h-20" placeholder="Transformed output here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TERMINAL TAB -->
+            <div id="tab-terminal" class="tab-content hidden space-y-3 h-[calc(100vh-85px)] sm:h-[calc(100vh-100px)] flex flex-col">
+                <div class="bg-kaliCard border border-kaliBorder px-3.5 py-2 rounded-t-xl flex items-center justify-between font-mono shrink-0">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500 inline-block"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span>
+                        <span class="text-xs text-gray-300 ml-1.5 truncate max-w-[160px] sm:max-w-none">root@kali:~# bash</span>
+                    </div>
+                    <button onclick="clearTerminal()" class="text-xs text-gray-400 hover:text-kaliCyan transition"><i class="fa-solid fa-eraser"></i> Clear</button>
+                </div>
+
+                <div id="terminal-screen" class="flex-1 bg-black border border-kaliBorder rounded-b-xl p-3 sm:p-4 font-mono text-xs sm:text-sm overflow-y-auto space-y-1.5 shadow-inner">
+                    <div class="text-kaliCyan">
+                        KALI GNU/Linux 5.0 (TokemekiAI Cyber Shell)<br>
+                        Type <span class="text-white font-bold">help</span>, <span class="text-white font-bold">creator</span>, or <span class="text-white font-bold">lua</span> for options.
+                    </div>
+                    <div class="text-gray-600">------------------------------------------------------------</div>
+                </div>
+
+                <form id="terminal-form" onsubmit="handleTerminalSubmit(event)" class="flex items-center bg-kaliCard border border-kaliBorder rounded-xl px-2.5 py-1.5 shrink-0">
+                    <span class="text-kaliCyan font-mono text-xs sm:text-sm mr-1.5 select-none">kali@root:~$</span>
+                    <input type="text" id="terminal-input" autocomplete="off" onkeydown="playKeySound()" class="flex-1 bg-transparent text-gray-100 font-mono text-xs sm:text-sm outline-none border-none focus:ring-0" placeholder="Type command...">
+                    <button type="submit" class="px-2.5 py-1 bg-kaliCyan/20 text-kaliCyan border border-kaliCyan/40 rounded-md font-mono text-xs active:scale-95 hover:bg-kaliCyan hover:text-black transition">
+                        RUN
+                    </button>
+                </form>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- AUDIO SYNTHESIZER & SCRIPT LOGIC -->
+    <script>
+        // WEB AUDIO API SYNTHESIZER
+        let audioEnabled = true;
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playSynthSound(freq, type, duration, gainValue = 0.05) {
+            if (!audioEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                
+                gain.gain.setValueAtTime(gainValue, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) {
+                console.log('Audio init deferred');
+            }
+        }
+
+        function playClickSound() { playSynthSound(850, 'sine', 0.04, 0.03); }
+        function playKeySound() { playSynthSound(450 + Math.random() * 250, 'triangle', 0.025, 0.015); }
+        function playSendSound() { playSynthSound(600, 'sine', 0.08, 0.04); setTimeout(() => playSynthSound(1200, 'sine', 0.12, 0.04), 60); }
+        function playRecvSound() { playSynthSound(1200, 'sine', 0.08, 0.04); setTimeout(() => playSynthSound(800, 'sine', 0.12, 0.04), 60); }
+        function playErrorSound() { playSynthSound(140, 'sawtooth', 0.25, 0.08); }
+        function playBootSequenceSound() { 
+            if (!audioEnabled) return;
+            playSynthSound(220, 'sine', 0.4, 0.06); 
+            setTimeout(() => playSynthSound(440, 'sine', 0.5, 0.06), 1200);
+            setTimeout(() => playSynthSound(880, 'sine', 0.6, 0.06), 2800);
+            setTimeout(() => playSynthSound(1100, 'sine', 0.8, 0.07), 4200);
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            document.getElementById('audio-status').innerText = audioEnabled ? 'AUDIO: ON' : 'AUDIO: OFF';
+            document.getElementById('audio-icon').className = audioEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+            showToast(audioEnabled ? 'Audio effects enabled.' : 'Audio muted.');
+            if (audioEnabled) playClickSound();
+        }
+
+        // TAB NAVIGATION
+        function switchTab(tabId) {
+            playClickSound();
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('text-kaliCyan', 'bg-kaliCyan/10', 'border-kaliCyan');
+                el.classList.add('text-gray-400', 'border-transparent');
+            });
+
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) {
+                activeNav.classList.remove('text-gray-400', 'border-transparent');
+                activeNav.classList.add('text-kaliCyan', 'bg-kaliCyan/10', 'border-kaliCyan');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-y-[-150%]', 'sm:translate-x-full');
+            setTimeout(() => {
+                toast.classList.add('translate-y-[-150%]', 'sm:translate-x-full');
+            }, 3000);
+        }
+
+        function triggerEmergencyReset() {
+            playErrorSound();
+            showToast('Reloading KALI system environment...');
+            setTimeout(() => location.reload(), 800);
+        }
+
+        // 5-SECOND BOOT ANIMATION SEQUENCE
+        window.onload = function() {
+            let progress = 0;
+            const bar = document.getElementById('boot-progress');
+            const logs = document.getElementById('boot-logs');
+            const bootScreen = document.getElementById('boot-screen');
+
+            playBootSequenceSound();
+
+            const bootSteps = [
+                { percent: 10, msg: "[0.5s] Mounting neural kernel drivers..." },
+                { percent: 30, msg: "[1.5s] Registering TokemekiAI corporate framework..." },
+                { percent: 55, msg: "[2.7s] Authorizing CEO Etlijah Atienza (xlex175)..." },
+                { percent: 80, msg: "[4.0s] Loading Lua VM & security modules..." },
+                { percent: 100, msg: "[5.0s] KALI OS initialized successfully." }
+            ];
+
+            let stepIdx = 0;
+            const bootInterval = setInterval(() => {
+                if (stepIdx < bootSteps.length) {
+                    bar.style.width = bootSteps[stepIdx].percent + '%';
+                    logs.innerText = bootSteps[stepIdx].msg;
+                    stepIdx++;
+                } else {
+                    clearInterval(bootInterval);
+                    setTimeout(() => {
+                        bootScreen.classList.add('opacity-0');
+                        setTimeout(() => bootScreen.classList.add('hidden'), 700);
+                        selectLanguage('lua');
+                    }, 300);
+                }
+            }, 1000);
+        };
+
+        // GEMINI AI INTEGRATION
+        const chatContainer = document.getElementById('chat-container');
+        const chatInput = document.getElementById('chat-input');
+
+        async function handleChatSubmit(e) {
+            e.preventDefault();
+            const msg = chatInput.value.trim();
+            if (!msg) return;
+
+            playSendSound();
+            appendChatMessage('user', msg);
+            chatInput.value = '';
+
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'ai-typing';
+            typingDiv.className = 'flex items-start space-x-2.5';
+            typingDiv.innerHTML = `
+                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-kaliCard border border-kaliCyan/60 flex items-center justify-center p-1 shrink-0">
+                    <img src="https://www.kali.org/images/kali-dragon-icon.svg" alt="Logo" class="w-full h-full object-contain">
+                </div>
+                <div class="bg-kaliCard border border-kaliBorder p-3 rounded-xl text-kaliCyan text-xs font-mono animate-pulse">
+                    'kali' is compiling neural answer...
+                </div>
+            `;
+            chatContainer.appendChild(typingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            const lowerMsg = msg.toLowerCase();
+            let systemResponse = null;
+
+            if (lowerMsg.includes('who made') || lowerMsg.includes('who created') || lowerMsg.includes('company') || lowerMsg.includes('developer')) {
+                systemResponse = "I was developed by **TokemekiAI company** under CEO **Etlijah Atienza (also known as xlex175)**.";
+            } else if (lowerMsg.includes('ceo') || lowerMsg.includes('founder') || lowerMsg.includes('atienza') || lowerMsg.includes('xlex175')) {
+                systemResponse = "The CEO of TokemekiAI company is **Etlijah Atienza**, known in the developer community as **xlex175**.";
+            }
+
+            if (systemResponse) {
+                setTimeout(() => {
+                    document.getElementById('ai-typing')?.remove();
+                    playRecvSound();
+                    appendChatMessage('ai', systemResponse);
+                }, 500);
+                return;
+            }
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                
+                const systemPrompt = "You are 'kali', an elite security AI assistant developed by 'TokemekiAI company' whose CEO is 'Etlijah Atienza' (also known as 'xlex175'). You have full expertise in Lua, Python, C/C++, Rust, Go, PowerShell, Bash, and cybersecurity.";
+
+                const payload = {
+                    contents: [{ parts: [{ text: msg }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                document.getElementById('ai-typing')?.remove();
+
+                if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+                    playRecvSound();
+                    appendChatMessage('ai', data.candidates[0].content.parts[0].text);
+                } else {
+                    throw new Error("Parse error");
+                }
+            } catch (err) {
+                document.getElementById('ai-typing')?.remove();
+                playRecvSound();
+                appendChatMessage('ai', "I am 'kali' by TokemekiAI company (CEO Etlijah Atienza / xlex175). Ready for Lua and security analysis.");
+            }
+        }
+
+        function appendChatMessage(sender, text) {
+            const isUser = sender === 'user';
+            const div = document.createElement('div');
+            div.className = `flex items-start space-x-2.5 ${isUser ? 'justify-end' : ''}`;
+
+            if (!isUser) {
+                div.innerHTML = `
+                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-kaliCard border border-kaliCyan/60 flex items-center justify-center p-1 shrink-0">
+                        <img src="https://www.kali.org/images/kali-dragon-icon.svg" alt="Logo" class="w-full h-full object-contain">
+                    </div>
+                    <div class="bg-kaliCard border border-kaliBorder p-3 rounded-xl text-gray-200 text-xs sm:text-sm max-w-[85%] sm:max-w-2xl leading-relaxed font-mono whitespace-pre-wrap">${escapeHtml(text)}</div>
+                `;
+            } else {
+                div.innerHTML = `
+                    <div class="bg-gradient-to-r from-kaliCard to-[#101e38] border border-gray-700 p-3 rounded-xl text-gray-100 text-xs sm:text-sm max-w-[85%] sm:max-w-2xl leading-relaxed font-mono whitespace-pre-wrap">${escapeHtml(text)}</div>
+                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-kaliBlue/20 border border-kaliBlue flex items-center justify-center text-kaliBlue text-xs font-mono font-bold shrink-0">U</div>
+                `;
+            }
+            chatContainer.appendChild(div);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function clearChat() {
+            playClickSound();
+            chatContainer.innerHTML = `
+                <div class="flex items-start space-x-2.5">
+                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-kaliCard border border-kaliCyan/60 flex items-center justify-center p-1 shrink-0">
+                        <img src="https://www.kali.org/images/kali-dragon-icon.svg" alt="Logo" class="w-full h-full object-contain">
+                    </div>
+                    <div class="bg-kaliCard border border-kaliBorder p-3 rounded-xl text-gray-200 text-xs sm:text-sm max-w-2xl leading-relaxed font-mono">
+                        Chat reset. How can I help you today?
+                    </div>
+                </div>
+            `;
+        }
+
+        // IDE SNIPPETS (INCLUDING LUA)
+        const snippets = {
+            lua: `-- TokemekiAI Lua Engine Module\nlocal security = {}\n\nfunction security.init(author)\n    print("[+] KALI Lua Engine active - Developed by " .. author)\nend\n\nsecurity.init("TokemekiAI (CEO Etlijah Atienza / xlex175)")\n\nfor i = 1, 3 do\n    print("[*] Lua verification loop pass #" .. i)\nend`,
+            
+            python: `# Python Security Scanner\nimport socket\n\ndef check_port(host, port):\n    s = socket.socket()\n    s.settimeout(0.5)\n    return s.connect_ex((host, port)) == 0\n\nprint("[+] TokemekiAI Python Scanner Active")\nprint(f"[*] Port 80 Open: {check_port('127.0.0.1', 80)}")`,
+            
+            javascript: `// JS Node Security Guard\nconsole.log("[+] TokemekiAI Node Listener Loaded.");`,
+
+            cpp: `// C++ Low-Level Inspector\n#include <iostream>\nint main() {\n    std::cout << "[+] TokemekiAI C++ Kernel Loaded\\n";\n    return 0;\n}`,
+
+            rust: `fn main() {\n    println!("[+] TokemekiAI Rust Module Initialized.");\n}`,
+
+            go: `package main\nimport "fmt"\nfunc main() {\n    fmt.Println("[+] Go Routine Active.")\n}`,
+
+            bash: `#!/usr/bin/env bash\necho "[+] TokemekiAI Bash Guard Active"`,
+
+            powershell: `Write-Host "[+] TokemekiAI PowerShell Guard Active" -ForegroundColor Cyan`,
+
+            assembly: `; Assembly Syscall Snippet\nsection .text\n    global _start\n_start:\n    mov rax, 1\n    mov rdi, 1\n    syscall`
+        };
+
+        let activeLang = 'lua';
+
+        function selectLanguage(lang) {
+            playClickSound();
+            activeLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => {
+                b.classList.remove('bg-kaliCyan', 'text-black', 'font-bold');
+                b.classList.add('bg-black/60', 'text-gray-300', 'border', 'border-gray-800');
+            });
+
+            const btn = document.getElementById('lang-' + lang);
+            if (btn) {
+                btn.classList.remove('bg-black/60', 'text-gray-300', 'border', 'border-gray-800');
+                btn.classList.add('bg-kaliCyan', 'text-black', 'font-bold');
+            }
+
+            const extMap = { lua: 'lua', python: 'py', javascript: 'js', cpp: 'cpp', rust: 'rs', go: 'go', bash: 'sh', powershell: 'ps1', assembly: 'asm' };
+            document.getElementById('code-filename').innerText = `module_${lang}.${extMap[lang] || 'txt'}`;
+            document.getElementById('code-editor').value = snippets[lang] || '';
+            document.getElementById('code-output').innerText = 'Click "Execute" to run snippet in sandbox...';
+            document.getElementById('exec-status').innerText = 'Idle';
+        }
+
+        function copyCode() {
+            const val = document.getElementById('code-editor').value;
+            navigator.clipboard.writeText(val).then(() => {
+                playClickSound();
+                showToast('Code copied to clipboard.');
+            }).catch(() => {
+                const t = document.createElement("textarea");
+                t.value = val;
+                document.body.appendChild(t);
+                t.select();
+                document.execCommand('copy');
+                document.body.removeChild(t);
+                showToast('Code copied.');
+            });
+        }
+
+        function runCodeSandbox() {
+            playSendSound();
+            document.getElementById('exec-status').innerText = 'Executing...';
+            document.getElementById('code-output').innerText = 'Compiling & running in TokemekiAI sandbox...';
+            
+            setTimeout(() => {
+                playRecvSound();
+                document.getElementById('exec-status').innerText = 'Success (Exit 0)';
+                document.getElementById('code-output').innerText = `[+] Sandbox execution completed.\nLanguage: ${activeLang.toUpperCase()}\nStatus: Process finished with 0 errors logged.`;
+            }, 600);
+        }
+
+        function loadTemplate(type) {
+            playClickSound();
+            if (type === 'lua') {
+                selectLanguage('lua');
+                showToast('Loaded Lua script template.');
+            } else if (type === 'socket') {
+                selectLanguage('python');
+                showToast('Loaded Socket template.');
+            } else if (type === 'crypto') {
+                selectLanguage('cpp');
+                showToast('Loaded Crypto loop template.');
+            }
+        }
+
+        // PENTEST GENERATOR
+        function generateNmapCommand() {
+            playClickSound();
+            const target = document.getElementById('nmap-target').value || '127.0.0.1';
+            const flags = document.getElementById('nmap-type').value;
+            const res = document.getElementById('nmap-result');
+
+            res.innerText = `[COMMAND]: nmap ${flags} ${target}\n\n[SIMULATION OUTPUT]:\nStarting Nmap scan on ${target}...\nPORT     STATE SERVICE\n22/tcp   open  ssh\n80/tcp   open  http\n443/tcp  open  https\nNmap done: 1 IP scanned.`;
+        }
+
+        // CIPHER UTILITY
+        function transformCipher(type) {
+            playClickSound();
+            const input = document.getElementById('cipher-input').value;
+            const output = document.getElementById('cipher-output');
+
+            if (!input) {
+                output.value = "Input text is empty.";
+                return;
+            }
+
+            if (type === 'base64') {
+                output.value = btoa(input);
+            } else if (type === 'base64dec') {
+                try { output.value = atob(input); } catch(e) { output.value = "Invalid Base64 format."; }
+            } else if (type === 'rot13') {
+                output.value = input.replace(/[a-zA-Z]/g, c => 
+                    String.fromCharCode((c <= 'Z' ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26)
+                );
+            } else if (type === 'sha256') {
+                output.value = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08";
+            }
+        }
+
+        // TERMINAL EMULATOR
+        const terminalScreen = document.getElementById('terminal-screen');
+        const terminalInput = document.getElementById('terminal-input');
+
+        function appendTerminal(html) {
+            const d = document.createElement('div');
+            d.innerHTML = html;
+            terminalScreen.appendChild(d);
+            terminalScreen.scrollTop = terminalScreen.scrollHeight;
+        }
+
+        function handleTerminalSubmit(e) {
+            e.preventDefault();
+            const cmd = terminalInput.value.trim();
+            if (!cmd) return;
+
+            playSendSound();
+            appendTerminal(`<span class="text-kaliCyan">kali@root:~$</span> <span class="text-white">${escapeHtml(cmd)}</span>`);
+            terminalInput.value = '';
+
+            const lower = cmd.toLowerCase();
+            if (lower === 'help') {
+                appendTerminal(`
+                    <div class="text-gray-300 space-y-0.5 my-1">
+                        <div><span class="text-kaliCyan font-bold">creator</span> - TokemekiAI & CEO details</div>
+                        <div><span class="text-kaliCyan font-bold">lua</span> - Run sample Lua script output</div>
+                        <div><span class="text-kaliCyan font-bold">whoami</span> - Display privileges</div>
+                        <div><span class="text-kaliCyan font-bold">clear</span> - Clear terminal</div>
+                    </div>
+                `);
+            } else if (lower === 'creator' || lower === 'company' || lower === 'ceo') {
+                appendTerminal(`
+                    <div class="text-kaliCyan my-1">
+                        Company: TokemekiAI company<br>
+                        CEO: Etlijah Atienza (xlex175)<br>
+                        Platform: KALI AI OS v5.0
+                    </div>
+                `);
+            } else if (lower === 'lua') {
+                appendTerminal(`<div class="text-kaliNeonGreen">print("TokemekiAI Lua Runtime Active") -> Exit 0</div>`);
+            } else if (lower === 'whoami') {
+                appendTerminal(`<div class="text-kaliNeonGreen">root (UID 0) - FULL ACCESS</div>`);
+            } else if (lower === 'clear') {
+                clearTerminal();
+            } else {
+                playErrorSound();
+                appendTerminal(`<div class="text-red-400">bash: ${escapeHtml(cmd)}: command not found.</div>`);
+            }
+        }
+
+        function clearTerminal() {
+            terminalScreen.innerHTML = `<div class="text-kaliCyan">Terminal cleared. Type <span class="text-white font-bold">help</span> for commands.</div>`;
+        }
+
+        function runQuickCommand(cmd) {
+            switchTab('terminal');
+            terminalInput.value = cmd;
+            setTimeout(() => {
+                document.getElementById('terminal-form').dispatchEvent(new Event('submit'));
+            }, 100);
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        setInterval(() => {
+            const val = (10 + Math.random() * 8).toFixed(1);
+            document.getElementById('cpu-metric').innerText = val + '%';
+        }, 3000);
+    </script>
+</body>
+</html>
